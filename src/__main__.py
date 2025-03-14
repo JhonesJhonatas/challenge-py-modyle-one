@@ -26,11 +26,11 @@ def showContacts():
     print('------------------------------------')
 
 def editContact():
-  selectedContactId = int(input('Digite o Id do contato que deseja editar: '))
+  selected_contact_id = int(input('Digite o Id do contato que deseja editar: '))
   
   contact_to_edit = None
   for contact in contacts:
-    if contact['id'] == selectedContactId:
+    if contact['id'] == selected_contact_id:
       contact_to_edit = contact
       break
   
@@ -45,25 +45,72 @@ def editContact():
     4 - Marcar/Desmarcar como favorito
   ''')
 
-  selectedEditOption = input('Digite a opção que deseja editar: ')
+  selected_edit_option = input('Digite a opção que deseja editar: ')
 
-  if(selectedEditOption == '1'):
-    newName = input('Digite o novo nome: ')
-    contact_to_edit['contact_name'] = newName
+  if(selected_edit_option == '1'):
+    new_name = input('Digite o novo nome: ')
+    contact_to_edit['contact_name'] = new_name
   
-  if(selectedEditOption == '2'):
-    newPhone = input('Digite o novo telefone: ')
-    contact_to_edit['contact_phone'] = newPhone
+  if(selected_edit_option == '2'):
+    new_phone = input('Digite o novo telefone: ')
+    contact_to_edit['contact_phone'] = new_phone
 
-  if(selectedEditOption == '3'):
-    newEmail = input('Digite o novo email: ')
-    contact_to_edit['contact_email'] = newEmail
+  if(selected_edit_option == '3'):
+    new_email = input('Digite o novo email: ')
+    contact_to_edit['contact_email'] = new_email
     
-  if(selectedEditOption == '4'):
-    newFavorite = input('Digite S para favoritar ou N para desfavoritar: ')
-    contact_to_edit['contact_favorite'] = True if newFavorite == 'S' else False
+  if(selected_edit_option == '4'):
+    new_favorite = input('Digite S para favoritar ou N para desfavoritar: ')
+    contact_to_edit['contact_favorite'] = True if new_favorite == 'S' else False
   
   print(f'O contato {contact_to_edit['contact_name']} foi editado com sucesso!')
+
+def makeFavorite():
+  selected_contact_id = int(input('Digite o Id do contato que deseja favoritar: '))
+  
+  contact_to_favorite = None
+  for contact in contacts:
+    if contact['id'] == selected_contact_id:
+      contact_to_favorite = contact
+      break
+  
+  if contact_to_favorite is None:
+    print('Contato não encontrado!')
+    return
+  
+  contact_to_favorite['contact_favorite'] = True
+  print(f'O contato {contact_to_favorite['contact_name']} foi favoritado com sucesso!')
+
+def getFavorites():
+  favorites = []
+  for contact in contacts:
+    if contact['contact_favorite']:
+      favorites.append(contact)
+  
+  for favorite in favorites:
+    print(f'---- {favorite['contact_name']} ----')
+    print(f'Nome: {favorite['contact_name']}')
+    print(f'Telefone: {favorite['contact_phone']}')
+    print(f'Email: {favorite['contact_email']}')
+    print(f'Favorito: {'Sim' if  favorite['contact_favorite'] == True else 'False'}')
+    print('------------------------------------')
+
+def deleteContact():
+  selected_contact_id = int(input('Digite o Id do contato que deseja apagar: '))
+  
+  contact_to_delete = None
+  for contact in contacts:
+    if contact['id'] == selected_contact_id:
+      contact_to_delete = contact
+      break
+  
+  if contact_to_delete is None:
+    print('Contato não encontrado!')
+    return
+  
+  contacts.remove(contact_to_delete)
+  print(f'O contato {contact_to_delete['contact_name']} foi apagado com sucesso!')
+
 
 while True:
   print('''
@@ -88,13 +135,13 @@ while True:
     editContact()
 
   elif(choice == '4'):
-    print('choice 4')
+    makeFavorite()
 
   elif(choice == '5'):
-    print('choice 5')
+    getFavorites()
 
   elif(choice == '6'):
-    print('choice 6')
+    deleteContact()
 
   elif(choice == '7'):
     print('Saindo do sistema...')
