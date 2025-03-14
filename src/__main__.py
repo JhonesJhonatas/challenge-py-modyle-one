@@ -1,13 +1,3 @@
-choices = [
-  '1 - Adicionar Contato',
-  '2 - Visualizar Contatos',
-  '3 - Editar Contato',
-  '4 - Marcar contato como favorito',
-  '5 - Ver Favoritos',
-  '6 - Apagar Contato',
-  '7 - Sair'
-]
-
 contacts = []
 
 def addContact():
@@ -36,11 +26,55 @@ def showContacts():
     print('------------------------------------')
 
 def editContact():
-  print('')
+  selectedContactId = int(input('Digite o Id do contato que deseja editar: '))
   
+  contact_to_edit = None
+  for contact in contacts:
+    if contact['id'] == selectedContactId:
+      contact_to_edit = contact
+      break
+  
+  if contact_to_edit is None:
+    print('Contato não encontrado!')
+    return
+
+  print('''
+    1 - Nome
+    2 - Telefone
+    3 - Email
+    4 - Marcar/Desmarcar como favorito
+  ''')
+
+  selectedEditOption = input('Digite a opção que deseja editar: ')
+
+  if(selectedEditOption == '1'):
+    newName = input('Digite o novo nome: ')
+    contact_to_edit['contact_name'] = newName
+  
+  if(selectedEditOption == '2'):
+    newPhone = input('Digite o novo telefone: ')
+    contact_to_edit['contact_phone'] = newPhone
+
+  if(selectedEditOption == '3'):
+    newEmail = input('Digite o novo email: ')
+    contact_to_edit['contact_email'] = newEmail
+    
+  if(selectedEditOption == '4'):
+    newFavorite = input('Digite S para favoritar ou N para desfavoritar: ')
+    contact_to_edit['contact_favorite'] = True if newFavorite == 'S' else False
+  
+  print(f'O contato {contact_to_edit['contact_name']} foi editado com sucesso!')
+
 while True:
-  for choice in choices:
-    print(choice)
+  print('''
+    1 - Adicionar Contato
+    2 - Visualizar Contatos
+    3 - Editar Contato
+    4 - Marcar contato como favorito
+    5 - Ver Favoritos
+    6 - Apagar Contato
+    7 - Sair
+  ''')
     
   choice = input('Digite sua escolha: ')
 
@@ -51,7 +85,7 @@ while True:
     showContacts()    
 
   elif(choice == '3'):
-    print('choice 3')
+    editContact()
 
   elif(choice == '4'):
     print('choice 4')
